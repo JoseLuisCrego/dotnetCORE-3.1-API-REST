@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj": {}
+    "C:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj": {}
   },
   "projects": {
-    "c:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj": {
+    "C:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj",
+        "projectUniqueName": "C:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj",
         "projectName": "Commander",
-        "projectPath": "c:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj",
+        "projectPath": "C:\\Projects\\NET Core 3.1 API REST course\\Commander\\Commander.csproj",
         "packagesPath": "C:\\Users\\jcrego\\.nuget\\packages\\",
-        "outputPath": "c:\\Projects\\NET Core 3.1 API REST course\\Commander\\obj\\",
+        "outputPath": "C:\\Projects\\NET Core 3.1 API REST course\\Commander\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
