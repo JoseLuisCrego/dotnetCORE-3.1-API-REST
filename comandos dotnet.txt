@@ -1,0 +1,2 @@
+dotnet new webapi -n Commander      : crear nuevo proyecto webapi rest llamado Commander
+code -r Commander                   : abrir proyecto Commander recién creado
