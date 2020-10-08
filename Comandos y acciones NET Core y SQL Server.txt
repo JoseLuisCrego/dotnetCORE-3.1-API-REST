@@ -52,7 +52,7 @@ Nuevo usuario para login en la conexión:
     3b.- Quitar enforced password policy.
     3c.- Server roles --> public y sysadmin.
     3d.- desconectarnos y volver as hacer login con SQL Server Authentication y el login creado.
-//Nota: Si da problemas de login, añadir en las propiedades de conexión "TRUSTED_CONNECTION = TRUE".
+//Nota: Si da problemas de autorización el login, añadir en las propiedades de conexión "TRUSTED_CONNECTION = TRUE".
 
 
 

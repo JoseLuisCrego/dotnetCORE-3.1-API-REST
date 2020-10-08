@@ -7,6 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Commander.Controllers
 {
+    /*
+        Con el decorator [ApiController] conseguimos automatizar cosas que son propias de un WebAPI, como
+        por ejemplo ebvitar decirle que el modelo que recibimos de la llamada proviene en el body
+        con el decorator [FromBody] o gestionar automáticamente la validación de los modelos que tengan
+        DataAnnotations en sus atributos devolviendo un 400 con el error en el modelo de manera automática.
+    */
+    [ApiController]
     [Route("api/commands")]
     public class CommandsController : Controller
     {
@@ -55,26 +62,19 @@ namespace Commander.Controllers
 
         //POST api/commands/
         [HttpPost]
-        public ActionResult<CommandReadDto> CreateCommand([FromBody]CommandCreateDto commandCreateDto)
-        {
-            if(commandCreateDto != null && !string.IsNullOrEmpty(commandCreateDto.HowTo))
-            {
-                var commandModel =_mapper.Map<Command>(commandCreateDto);
-                _repository.CreateCommmand(commandModel);
-                bool isOK =_repository.SaveChanges();
-                
-                if(isOK)
-                {
-                    var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
-                    //CreatedAtRoute() --> en la cabecera de la respuesta indica cómo acceder al comando creado y, a su vez, devuelve
-                    //                   el objeto generado commandReadDto. Devuelve un 201.
-                    return CreatedAtRoute(nameof(GetCommandById), new {Id = commandReadDto.Id}, commandReadDto);
-                }
-                
-                return BadRequest(); //Devuelve un 400.
-                
-            }
-            return BadRequest();
+        public ActionResult<CommandReadDto> CreateCommand(CommandCreateDto commandCreateDto)
+        { 
+            var commandModel =_mapper.Map<Command>(commandCreateDto);
+            _repository.CreateCommmand(commandModel);
+            _repository.SaveChanges();
+            var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
+            
+            /*
+                CreatedAtRoute():
+                En la cabecera de la respuesta indica cómo acceder al comando creado y, a su vez, devuelve
+                el objeto generado commandReadDto. Devuelve un 201.
+            */
+            return CreatedAtRoute(nameof(GetCommandById), new {Id = commandReadDto.Id}, commandReadDto);    
         }
     }
 }
