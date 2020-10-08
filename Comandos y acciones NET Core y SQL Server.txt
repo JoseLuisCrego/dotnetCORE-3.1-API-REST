@@ -20,7 +20,7 @@ dotnet run                                  : arrancar la aplicación
         </PackageReference>
 
 -Instalamos ahora SqlServer lanzando desde el terminal "dotnet add package Microsoft.EntityFrameworkCore.SqlServer".
-
+-En este momento es necesario ya realizar la creación de la BD y login en la sección SQL SERVER.
 
 dotnet tool install --global dotnet-ef      : instalamos erramienta para EF desde línea de comandos
 dotnet ef                                   : para comandos de EF
@@ -33,6 +33,10 @@ dotnet ef migrations add InitialMigration   : añadimos la migración inicial
                 Para deshacer las migraciones podemos lanzar "dotnet ef migrations remove".
 dotnet ef database update                   : actualiza el modelo en BD a partir de nuestro mapeo en el contexto.
 dotnet build                                : compilar el proyecto
+
+-Instalamos Automapper para los DTOs desde https://www.nuget.org/packages/AutoMapper.Extensions.Microsoft.DependencyInjection/
+    "dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version 8.0.1"
+
 
 
 /**************************************************************************************************************************************/

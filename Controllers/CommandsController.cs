@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using AutoMapper;
 using Commander.Data;
+using Commander.Dtos;
 using Commander.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +10,14 @@ namespace Commander.Controllers
     [Route("api/commands")]
     public class CommandsController : Controller
     {
-        public CommandsController(ICommanderRepository repository)
+        public CommandsController(ICommanderRepository repository, IMapper mapper)
         {
             this._repository = repository;
+            this._mapper = mapper;
         }
 
         private readonly ICommanderRepository _repository;
+        public IMapper _mapper { get; }
 
         //private readonly MockCommanderRepository _repository = new MockCommanderRepository();
         /*
@@ -26,16 +30,51 @@ namespace Commander.Controllers
 
         //GET api/commands
         [HttpGet]
-        public ActionResult<IEnumerable<Command>> GetAllCommands(){
-            var commands = _repository.GetAllCommands();
-            return Ok(commands);
+        public ActionResult<IEnumerable<CommandReadDto>> GetAllCommands()
+        {
+            var commandItems = _repository.GetAllCommands();
+            if(commandItems != null)
+            {
+                //Devuelve un 200.
+                return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandItems));
+            }
+            return NotFound();
         }
 
         //GET api/commands/{id}
-        [HttpGet("{id}")]
-        public ActionResult<Command> GetCommandById(int id){
-            var command = _repository.GetCommandById(id);
-            return Ok(command);
+        [HttpGet("{id}", Name="GetCommandById")]
+        public ActionResult<CommandReadDto> GetCommandById(int id)
+        {
+            var commandItem = _repository.GetCommandById(id);
+            if(commandItem != null)
+            {
+                return Ok(_mapper.Map<CommandReadDto>(commandItem));
+            }
+            return NotFound(); //Devuelve un 404.
+        }
+
+        //POST api/commands/
+        [HttpPost]
+        public ActionResult<CommandReadDto> CreateCommand([FromBody]CommandCreateDto commandCreateDto)
+        {
+            if(commandCreateDto != null && !string.IsNullOrEmpty(commandCreateDto.HowTo))
+            {
+                var commandModel =_mapper.Map<Command>(commandCreateDto);
+                _repository.CreateCommmand(commandModel);
+                bool isOK =_repository.SaveChanges();
+                
+                if(isOK)
+                {
+                    var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
+                    //CreatedAtRoute() --> en la cabecera de la respuesta indica cómo acceder al comando creado y, a su vez, devuelve
+                    //                   el objeto generado commandReadDto. Devuelve un 201.
+                    return CreatedAtRoute(nameof(GetCommandById), new {Id = commandReadDto.Id}, commandReadDto);
+                }
+                
+                return BadRequest(); //Devuelve un 400.
+                
+            }
+            return BadRequest();
         }
     }
 }

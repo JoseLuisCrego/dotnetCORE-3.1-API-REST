@@ -59,3 +59,5 @@ C:\Projects\NET Core 3.1 API REST course\Commander\bin\Debug\netcoreapp3.1\runti
 C:\Projects\NET Core 3.1 API REST course\Commander\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Projects\NET Core 3.1 API REST course\Commander\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Projects\NET Core 3.1 API REST course\Commander\obj\Debug\netcoreapp3.1\Commander.csproj.CopyComplete
+C:\Projects\NET Core 3.1 API REST course\Commander\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Projects\NET Core 3.1 API REST course\Commander\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
