@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Commander.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,13 @@ namespace Commander
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            /*
+                Crea una instancia de un MockCommanderRepository por cada request del cliente (AddScoped) siempre 
+                que alguna clase necesite de algo que implemente la interfaz ICommanderRepository vamos a 
+                tener una instancia automáticamente de una clase MockCommanderRespository. 
+            */
+            services.AddScoped<ICommanderRepository, MockCommanderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
