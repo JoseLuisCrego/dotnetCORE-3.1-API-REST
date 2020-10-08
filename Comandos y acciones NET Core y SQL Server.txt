@@ -1,0 +1,55 @@
+NET CORE:
+---------
+dotnet new webapi -n Commander              : crear nuevo proyecto webapi rest llamado Commander
+code -r Commander                           : abrir proyecto Commander recién creado
+dotnet run                                  : arrancar la aplicación
+
+-Descargar Entity Framework (EF) para .NET Core desde https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/
+    -Copiar el comando .NET CLI, en este caso ha sido "dotnet add package Microsoft.EntityFrameworkCore --version 3.1.8"
+        y lanzarlo en el terminal en el directorio raíz del proyecto.
+    -Esto añadirá al .csproj lo siguiente: 
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+
+-Del mismo modo haremos para descargar el diseñador de EF (EntityFrameworkCore.Design) 
+    desde https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/
+    "dotnet add package Microsoft.EntityFrameworkCore.Design --version 3.1.8"
+    -Esto añadirá al .csproj lo siguiente:
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+
+-Instalamos ahora SqlServer lanzando desde el terminal "dotnet add package Microsoft.EntityFrameworkCore.SqlServer".
+
+
+dotnet tool install --global dotnet-ef      : instalamos erramienta para EF desde línea de comandos
+dotnet ef                                   : para comandos de EF
+dotnet ef migrations add InitialMigration   : añadimos la migración inicial
+        ***Nota: las migraciones se utilizan para relacionar el schema en BD con nuestras clases.
+                Este comando generará un mapeo de las clases que tengamos relacionadas con DbSets y similares en nuestro 
+                contexto. Se autogenera una carpeta "Migrations" con la información del mapeo.
+                Puede que las migraciones creadas no nos gusten, por ejemplo, podemos necesitar tener un string no null
+                en BD y sin embargo el mapeo especifica que puede ser nullable, lo cual no nos cuadra.
+                Para deshacer las migraciones podemos lanzar "dotnet ef migrations remove".
+dotnet ef database update                   : actualiza el modelo en BD a partir de nuestro mapeo en el contexto.
+dotnet build                                : compilar el proyecto
+
+
+/**************************************************************************************************************************************/
+
+
+SQL SERVER:
+-----------
+Nuevo usuario para login en la conexión:
+1.- Abrir conexión local.
+2.- Ir a Security/Logins/ Click derecho - New Login...
+3.- Crear nuevo usuario con contraseña (User/PWD --> CommanderAPI/CommanderAPI).
+    3a.- Seleccionar SQL Server Authentication.
+    3b.- Quitar enforced password policy.
+    3c.- Server roles --> public y sysadmin.
+    3d.- desconectarnos y volver as hacer login con SQL Server Authentication y el login creado.
+//Nota: Si da problemas de login, añadir en las propiedades de conexión "TRUSTED_CONNECTION = TRUE".
+
+
+
+

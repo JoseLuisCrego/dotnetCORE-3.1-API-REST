@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,9 +32,20 @@ namespace Commander
             /*
                 Crea una instancia de un MockCommanderRepository por cada request del cliente (AddScoped) siempre 
                 que alguna clase necesite de algo que implemente la interfaz ICommanderRepository vamos a 
-                tener una instancia automáticamente de una clase MockCommanderRespository. 
+                tener una instancia automáticamente de una clase MockCommanderRespository.
             */
-            services.AddScoped<ICommanderRepository, MockCommanderRepository>();
+            //services.AddScoped<ICommanderRepository, MockCommanderRepository>();
+
+            //Hacemos lo propio para el repositorio real, y si en un futuro queremos probar el Mock, cambiamos uno por otro.
+            services.AddScoped<ICommanderRepository, SqlCommanderRepository>();
+
+
+            /*
+                Añadimos aquí los contextos de BD necesarios para las conexiones que deseemos.
+                Usaremos Configuration.GetConnectionString() para acceder a la propiedad que le especifiquemos 
+                dentro de la propiedad json ConnectionStrings en AppSettings.json.
+            */
+            services.AddDbContext<CommanderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CommanderConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
