@@ -42,7 +42,7 @@ namespace Commander.Controllers
             var commandItems = _repository.GetAllCommands();
             if(commandItems != null)
             {
-                //Devuelve un 200.
+                //Devuelve un OK 200.
                 return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandItems));
             }
             return NotFound();
@@ -57,7 +57,7 @@ namespace Commander.Controllers
             {
                 return Ok(_mapper.Map<CommandReadDto>(commandItem));
             }
-            return NotFound(); //Devuelve un 404.
+            return NotFound(); //Devuelve un error 404.
         }
 
         //POST api/commands/
@@ -75,6 +75,21 @@ namespace Commander.Controllers
                 el objeto generado commandReadDto. Devuelve un 201.
             */
             return CreatedAtRoute(nameof(GetCommandById), new {Id = commandReadDto.Id}, commandReadDto);    
+        }
+
+        //PUT api/commands/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateCommand (int id, CommandUpdateDto commandUpdateDto)
+        {
+            var commandModelFromRepo = _repository.GetCommandById(id);
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(commandUpdateDto, commandModelFromRepo);
+            _repository.UpdateCommand(commandModelFromRepo);
+            _repository.SaveChanges();
+            return NoContent();//Devuelve un OK 204.
         }
     }
 }

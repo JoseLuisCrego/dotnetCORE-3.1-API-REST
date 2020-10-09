@@ -43,5 +43,10 @@ namespace Commander.Data
             }
             _context.Add(command);
         }
+
+        public void UpdateCommand(Command command)
+        {
+            
+        }
     }
 }
