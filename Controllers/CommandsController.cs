@@ -115,6 +115,7 @@ namespace Commander.Controllers
             {
                 return NotFound();
             }
+
             var commandToPatch = _mapper.Map<CommandUpdateDto>(commandModelFromRepo);
             pathDoc.ApplyTo(commandToPatch, ModelState);
             if(!TryValidateModel(commandToPatch))
@@ -122,7 +123,24 @@ namespace Commander.Controllers
                 return ValidationProblem(ModelState);
             }
             _mapper.Map(commandToPatch, commandModelFromRepo);
+
             _repository.UpdateCommand(commandModelFromRepo);
+            _repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        //DELETE api/commands/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCommand(int id)
+        {
+            var commandModelFromRepo = _repository.GetCommandById(id);
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteCommand(commandModelFromRepo);
             _repository.SaveChanges();
 
             return NoContent();

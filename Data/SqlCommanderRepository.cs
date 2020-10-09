@@ -51,5 +51,14 @@ namespace Commander.Data
                 el objeto que queremos actualizar, será suficiente con modificarlo y aplicar SaveChanges().
             */
         }
+
+        public void DeleteCommand(Command command)
+        {
+            if(command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+            _context.Commands.Remove(command);
+        }
     }
 }
