@@ -37,6 +37,9 @@ dotnet build                                : compilar el proyecto
 -Instalamos Automapper para los DTOs desde https://www.nuget.org/packages/AutoMapper.Extensions.Microsoft.DependencyInjection/
     "dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version 8.0.1"
 
+-Instalamos jsonPatch desde https://www.nuget.org/packages/Microsoft.AspNetCore.JsonPatch
+    "dotnet add package Microsoft.AspNetCore.JsonPatch --version 3.1.8"
+
 
 
 /**************************************************************************************************************************************/

@@ -46,7 +46,10 @@ namespace Commander.Data
 
         public void UpdateCommand(Command command)
         {
-            
+            /*
+                No es necesario implementar nada de base ya que en el momento en que obtenemos en la lógica del aplicativo 
+                el objeto que queremos actualizar, será suficiente con modificarlo y aplicar SaveChanges().
+            */
         }
     }
 }

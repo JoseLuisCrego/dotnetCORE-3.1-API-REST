@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+
 
 namespace Commander
 {
@@ -28,7 +31,8 @@ namespace Commander
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //Añado a los controladores NewtonsoftJson para el tratamiento de datos json.
+            services.AddControllers().AddNewtonsoftJson();
 
             /*
                 Crea una instancia de un MockCommanderRepository por cada request del cliente (AddScoped) siempre 
@@ -50,6 +54,7 @@ namespace Commander
 
             //Añado AutoMapper en todo el dominio para poder usar DI con éste donde sea que lo necesite.
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

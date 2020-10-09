@@ -3,6 +3,7 @@ using AutoMapper;
 using Commander.Data;
 using Commander.Dtos;
 using Commander.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Commander.Controllers
@@ -87,9 +88,44 @@ namespace Commander.Controllers
                 return NotFound();
             }
             _mapper.Map(commandUpdateDto, commandModelFromRepo);
+
             _repository.UpdateCommand(commandModelFromRepo);
+            //No hará nada, pero puede que en un futuro sea necesario modificarlo, así que lo llamamos igualmente (??)
+
             _repository.SaveChanges();
             return NoContent();//Devuelve un OK 204.
+        }
+
+        //PATCH api/commands/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialCommandUpdate(int id, JsonPatchDocument<CommandUpdateDto> pathDoc)
+        {
+            /*
+                Con PATCH y jsonpatchdocument ser establece un contrato de información con la siguiente estructura:
+                [
+                    {
+                        "op":"replace",
+                        "path":"/howTo",
+                        "value":"How to create migrations !!"
+                    }
+                ]
+            */
+            var commandModelFromRepo = _repository.GetCommandById(id);
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            var commandToPatch = _mapper.Map<CommandUpdateDto>(commandModelFromRepo);
+            pathDoc.ApplyTo(commandToPatch, ModelState);
+            if(!TryValidateModel(commandToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(commandToPatch, commandModelFromRepo);
+            _repository.UpdateCommand(commandModelFromRepo);
+            _repository.SaveChanges();
+
+            return NoContent();
         }
     }
 }
